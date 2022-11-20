@@ -1,0 +1,14 @@
+body {
+    display: flex;
+}
+
+.fruit-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fruit-image {
+    width: 75px;
+}
