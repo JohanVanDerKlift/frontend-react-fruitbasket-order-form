@@ -1,20 +1,72 @@
 body {
-    display: flex;
+    /*display: flex;*/
+    /*justify-content: center;*/
 }
 
-.fruit-list {
+h1 {
+    text-align: center;
+}
+
+.container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .fruit-image {
-    width: 75px;
+    width: 50px;
+}
+
+.fruit {
+    margin: 15px;
+    width: 150px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.count {
+    margin: 15px;
+}
+
+.countButton {
+    width: 25px;
+    height: 25px;
 }
 
 form {
     display: flex;
+    flex-basis: 800px;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+}
+
+.label {
+    margin-top: 15px;
+    width: 300px;
+}
+
+input {
+    width: 250px;
+}
+
+.radio {
+    display: flex;
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.terms {
+    display: flex;
+    margin-top: 15px;
+}
+
+.submit {
+    width: 100px;
+    height: 25px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

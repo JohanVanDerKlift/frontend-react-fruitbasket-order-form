@@ -6,6 +6,7 @@ import kiwi from "./assets/kiwi.png"
 import aardbei from "./assets/aardbei.png"
 import banaan from "./assets/banaan.png"
 import appel from "./assets/appel.png"
+import fruitCounter from "./components/FruitCounter";
 
 function App() {
   const [ state, setState ] = useState({
@@ -23,9 +24,17 @@ function App() {
     terms: false,
   });
 
+  function handleFruitCount(e, int) {
+    const changedItem = e.target.name;
+    const value = state[changedItem].valueOf() + int;
+    setState({
+      ...state,
+      [changedItem]: value,
+    })
+  }
+
   function addOne(e) {
     const changedItem = e.target.name;
-    console.log(changedItem);
     setState({
       ...state,
       [changedItem]: state[changedItem].valueOf() + 1,
@@ -43,47 +52,65 @@ function App() {
   }
 
   function handleChange(e) {
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     const changedFieldName = e.target.name;
     setState({
       ...state,
-      [changedFieldName]: e.target.value,
+      [changedFieldName]: value,
     })
+  }
+
+  function handleSubmit(e) {
+    console.log(`Fruitmand bezorgservice formulier
+    Bestelling:
+    Aardbeien:        ${state.strawberry}
+    Bananen:          ${state.banana}
+    Appels:           ${state.apple}
+    Kiwi:             ${state.kiwi}
+    _______________________________________
+    Gegevens:
+    Naam:             ${state.firstName} ${state.lastName}
+    Leeftijd:         ${state.age}
+    Postcode:         ${state.zipCode}
+    Bezorgfrequentie  ${state.frequentie}
+    Tijdvak:          ${state.timeOfDay}
+    Opmerkingen:      ${state.remarks}
+    Voorwaarden:      ${state.terms}
+    `);
+    e.preventDefault();
   }
 
   return (
     <>
       <h1>Fruitmand bezorgservice</h1>
-      <ul className="fruit-list">
+
+      <form onSubmit={handleSubmit}>
         <FruitCounter
           name="strawberry"
           image={aardbei}
           item="Aardbei"
-          addOne={addOne}
-          subtractOne={subtractOne}
+          handleFruitCount={handleFruitCount}
           value={state.strawberry}
         />
         <FruitCounter
           name="banana"
           image={banaan}
           item="banaan"
-          addOne={addOne}
-          subtractOne={subtractOne}
+          handleFruitCount={handleFruitCount}
           value={state.banana}
         />
         <FruitCounter
           name="apple"
           image={appel}
           item="appel"
-          addOne={addOne}
-          subtractOne={subtractOne}
+          handleFruitCount={handleFruitCount}
           value={state.apple}
         />
         <FruitCounter
           name="kiwi"
           image={kiwi}
           item="kiwi"
-          addOne={addOne}
-          subtractOne={subtractOne}
+          handleFruitCount={handleFruitCount}
           value={state.kiwi}
         />
         <button type="button" onClick={() => {
@@ -93,58 +120,96 @@ function App() {
             apple: 0,
             kiwi: 0,
           });
-          FruitCounter(state);
+          // FruitCounter(state);
         }}>Reset</button>
-      </ul>
 
-      <form action="">
-        <Input
-          name="firstName"
-          type="text"
-          value={state.firstName}
-          handleChange={handleChange}
-        >Voornaam</Input>
-        <Input
-          name="lastName"
-          type="text"
-          value={state.lastName}
-          handleChange={handleChange}
-        >Achternaam</Input>
-        <Input
-          name="age"
-          type="text"
-          value={state.age}
-          handleChange={handleChange}
-        >Leeftijd</Input>
-        <Input
-          name="zipCode"
-          type="text"
-          value={state.zipCode}
-          handleChange={handleChange}
-        >Postcode</Input>
-        <label htmlFor="frequentie">Bezorgfrequentie<br/>
-          <select name="frequentie" id="frequentie">
+        <label htmlFor="firstName" className="label">Voornaam
+          <Input
+            name="firstName"
+            type="text"
+            value={state.firstName}
+            handleChange={handleChange}
+          />
+        </label>
+        <label htmlFor="lastName" className="label">Achternaam
+          <Input
+            name="lastName"
+            type="text"
+            value={state.lastName}
+            handleChange={handleChange}
+          />
+        </label>
+        <label htmlFor="age" className="label">Leeftijd
+          <Input
+            name="age"
+            type="text"
+            value={state.age}
+            handleChange={handleChange}
+          />
+        </label>
+        <label htmlFor="zipCode" className="label">Postcode
+          <Input
+            name="zipCode"
+            type="text"
+            value={state.zipCode}
+            handleChange={handleChange}
+          />
+        </label>
+        <label htmlFor="frequentie" className="label">Bezorgfrequentie<br/>
+          <select name="frequentie" id="frequentie" onChange={handleChange} value={state.frequentie}>
             <option value="Iedere week">Iedere week</option>
             <option value="Om de week">Om de week</option>
             <option value="Iedere maand">Iedere maand</option>
           </select>
         </label>
-        <label htmlFor="overdag">
-          <input type="radio" id="overdag" name="timeOfDay"/>
-          Overdag
-        </label>
-        <label htmlFor="savonds">
-          <input type="radio" id="savonds" name="timeOfDay"/>
-          's Avonds
-        </label>
+        <div className="radio">
+          <label htmlFor="overdag" className="radio">
+            <input
+              type="radio"
+              id="overdag"
+              name="timeOfDay"
+              value="overdag"
+              checked={state.timeOfDay === "overdag"}
+              onChange={handleChange}
+            />
+            Overdag
+          </label>
+        </div>
+        <div className="radio">
+          <label htmlFor="savonds" className="radio">
+            <input
+              type="radio"
+              id="savonds"
+              name="timeOfDay"
+              value="savonds"
+              checked={state.timeOfDay === "savonds"}
+              onChange={handleChange}
+            />
+            's Avonds
+          </label>
+        </div>
         <label htmlFor="remarks">Opmerkingen <br/>
-          <textarea name="remarks" id="remarks" cols="50" rows="10"></textarea>
+          <textarea
+            name="remarks"
+            id="remarks"
+            cols="50"
+            rows="10"
+            value={state.remarks}
+            onChange={handleChange}
+          ></textarea>
         </label>
         <label htmlFor="terms">
-          <input type="checkbox" id="terms"/>
+          <input
+            type="checkbox"
+            id="terms"
+            className="terms"
+            name="terms"
+            checked={state.terms}
+            onChange={handleChange}
+          />
           Ik ga akkoord met de voorwaarden
         </label>
-        <button type="submit">Verzend</button>
+        <button type="submit" className="submit">Verzend</button>
       </form>
     </>
   );
