@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import './App.css';
 import FruitCounter from "./components/FruitCounter";
 import Input from "./components/Input"
+import Select from "./components/Select"
 import kiwi from "./assets/kiwi.png"
 import aardbei from "./assets/aardbei.png"
 import banaan from "./assets/banaan.png"
 import appel from "./assets/appel.png"
-import fruitCounter from "./components/FruitCounter";
-import Select from "./components/Select"
+import Button from "./components/Button";
+
 
 function App() {
   const [ state, setState ] = useState({
@@ -34,27 +35,19 @@ function App() {
     })
   }
 
-  function addOne(e) {
-    const changedItem = e.target.name;
+  function handleReset() {
     setState({
-      ...state,
-      [changedItem]: state[changedItem].valueOf() + 1,
-    });
-  }
-
-  function subtractOne(e) {
-    const changedItem = e.target.name;
-    if (state[changedItem].valueOf() > 0) {
-      setState({
-        ...state,
-        [changedItem]: state[changedItem].valueOf() - 1,
-      });
-    }
+      strawberry: 0,
+      banana: 0,
+      apple: 0,
+      kiwi: 0,
+    })
   }
 
   function handleChange(e) {
     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     const changedFieldName = e.target.name;
+    console.log(value);
     setState({
       ...state,
       [changedFieldName]: value,
@@ -126,18 +119,15 @@ function App() {
           handleFruitCount={handleFruitCount}
           value={state.kiwi}
         />
-        <button type="button" onClick={() => {
-          setState({
-            strawberry: 0,
-            banana: 0,
-            apple: 0,
-            kiwi: 0,
-          });
-          // FruitCounter(state);
-        }}>Reset</button>
+        <Button
+          type="button"
+          className="submit"
+          onClick={handleReset}
+        >Reset</Button>
 
         <Input
           name="firstName"
+          className="label"
           type="text"
           value={state.firstName}
           handleChange={handleChange}
@@ -145,6 +135,7 @@ function App() {
 
         <Input
           name="lastName"
+          className="label"
           type="text"
           value={state.lastName}
           handleChange={handleChange}
@@ -152,6 +143,7 @@ function App() {
 
         <Input
           name="age"
+          className="label"
           type="text"
           value={state.age}
           handleChange={handleChange}
@@ -159,56 +151,38 @@ function App() {
 
         <Input
           name="zipCode"
+          className="label"
           type="text"
           value={state.zipCode}
           handleChange={handleChange}
         >Postcode</Input>
 
-        <label htmlFor="frequentie" className="label">Bezorgfrequentie<br/>
-          <select name="frequentie" id="frequentie" onChange={handleChange} value={state.value}>
-            {options.map((option) => (
-              <option value={option.value}>{option.value}</option>
-            ))}
-          </select>
-        </label>
-        {/*<Select*/}
-        {/*  name="frequentie"*/}
-        {/*  handleChange={handleChange}*/}
-        {/*  value={state.frequentie}*/}
-        {/*  options={options}*/}
-        {/*>Bezorgfrequentie</Select>*/}
-        {/*<label htmlFor="frequentie" className="label">Bezorgfrequentie<br/>*/}
-        {/*  <select name="frequentie" id="frequentie" onChange={handleChange} value={state.frequentie}>*/}
-        {/*    <option value="Iedere week">Iedere week</option>*/}
-        {/*    <option value="Om de week">Om de week</option>*/}
-        {/*    <option value="Iedere maand">Iedere maand</option>*/}
-        {/*  </select>*/}
-        {/*</label>*/}
+        <Select
+          name="frequentie"
+          handleChange={handleChange}
+          value={state.frequentie}
+          options={options}
+        >Bezorgfrequentie</Select>
+
         <div className="radio">
-          <label htmlFor="overdag" className="radio">
-            <input
-              type="radio"
-              id="overdag"
-              name="timeOfDay"
-              value="overdag"
-              checked={state.timeOfDay === "overdag"}
-              onChange={handleChange}
-            />
-            Overdag
-          </label>
+          <Input
+            className="radio"
+            name="timeOfDay"
+            type="radio"
+            value="overdag"
+            checked={state.timeOfDay === "overdag"}
+            handleChange={handleChange}
+          >Overdag</Input>
         </div>
         <div className="radio">
-          <label htmlFor="savonds" className="radio">
-            <input
-              type="radio"
-              id="savonds"
-              name="timeOfDay"
-              value="savonds"
-              checked={state.timeOfDay === "savonds"}
-              onChange={handleChange}
-            />
-            's Avonds
-          </label>
+          <Input
+            className="radio"
+            name="timeOfDay"
+            type="radio"
+            value="avond"
+            checked={state.timeOfDay === "avond"}
+            handleChange={handleChange}
+          >'s Avonds</Input>
         </div>
         <label htmlFor="remarks">Opmerkingen <br/>
           <textarea
@@ -231,7 +205,11 @@ function App() {
           />
           Ik ga akkoord met de voorwaarden
         </label>
-        <button type="submit" className="submit">Verzend</button>
+        <Button
+          type="submit"
+          className="submit"
+          onClick={handleSubmit}
+        >Verzend</Button>
       </form>
     </>
   );

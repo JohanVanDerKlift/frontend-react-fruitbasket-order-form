@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Select(children, name, handleChange, value, options) {
+function Select({children, name, handleChange, value, options}) {
   return (
     <>
       <label htmlFor={name} className="label">{children}<br/>
