@@ -2,7 +2,7 @@ import React from 'react';
 
 function Input({children, name, type, value, handleChange}) {
   return (
-    <label htmlFor={name}>{children}
+    <label htmlFor={name} className="label">{children}
       <input
         id={name}
         name={name}

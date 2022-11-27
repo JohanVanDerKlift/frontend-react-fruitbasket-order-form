@@ -7,6 +7,7 @@ import aardbei from "./assets/aardbei.png"
 import banaan from "./assets/banaan.png"
 import appel from "./assets/appel.png"
 import fruitCounter from "./components/FruitCounter";
+import Select from "./components/Select"
 
 function App() {
   const [ state, setState ] = useState({
@@ -80,6 +81,18 @@ function App() {
     e.preventDefault();
   }
 
+  const options = [
+    {
+      value: "Iedere week"
+    },
+    {
+      value: "Om de week"
+    },
+    {
+      value: "Iedere maand"
+    }
+  ];
+
   return (
     <>
       <h1>Fruitmand bezorgservice</h1>
@@ -123,45 +136,54 @@ function App() {
           // FruitCounter(state);
         }}>Reset</button>
 
-        <label htmlFor="firstName" className="label">Voornaam
-          <Input
-            name="firstName"
-            type="text"
-            value={state.firstName}
-            handleChange={handleChange}
-          />
-        </label>
-        <label htmlFor="lastName" className="label">Achternaam
-          <Input
-            name="lastName"
-            type="text"
-            value={state.lastName}
-            handleChange={handleChange}
-          />
-        </label>
-        <label htmlFor="age" className="label">Leeftijd
-          <Input
-            name="age"
-            type="text"
-            value={state.age}
-            handleChange={handleChange}
-          />
-        </label>
-        <label htmlFor="zipCode" className="label">Postcode
-          <Input
-            name="zipCode"
-            type="text"
-            value={state.zipCode}
-            handleChange={handleChange}
-          />
-        </label>
+        <Input
+          name="firstName"
+          type="text"
+          value={state.firstName}
+          handleChange={handleChange}
+        >Voornaam</Input>
+
+        <Input
+          name="lastName"
+          type="text"
+          value={state.lastName}
+          handleChange={handleChange}
+        >Achternaam</Input>
+
+        <Input
+          name="age"
+          type="text"
+          value={state.age}
+          handleChange={handleChange}
+        >Leeftijd</Input>
+
+        <Input
+          name="zipCode"
+          type="text"
+          value={state.zipCode}
+          handleChange={handleChange}
+        >Postcode</Input>
+
         <label htmlFor="frequentie" className="label">Bezorgfrequentie<br/>
-          <select name="frequentie" id="frequentie" onChange={handleChange} value={state.frequentie}>
-            <option value="Iedere week">Iedere week</option>
-            <option value="Om de week">Om de week</option>
-            <option value="Iedere maand">Iedere maand</option>
+          <select name="frequentie" id="frequentie" onChange={handleChange} value={state.value}>
+            {options.map((option) => (
+              <option value={option.value}>{option.value}</option>
+            ))}
           </select>
         </label>
+        {/*<Select*/}
+        {/*  name="frequentie"*/}
+        {/*  handleChange={handleChange}*/}
+        {/*  value={state.frequentie}*/}
+        {/*  options={options}*/}
+        {/*>Bezorgfrequentie</Select>*/}
+        {/*<label htmlFor="frequentie" className="label">Bezorgfrequentie<br/>*/}
+        {/*  <select name="frequentie" id="frequentie" onChange={handleChange} value={state.frequentie}>*/}
+        {/*    <option value="Iedere week">Iedere week</option>*/}
+        {/*    <option value="Om de week">Om de week</option>*/}
+        {/*    <option value="Iedere maand">Iedere maand</option>*/}
+        {/*  </select>*/}
+        {/*</label>*/}
         <div className="radio">
           <label htmlFor="overdag" className="radio">
             <input
